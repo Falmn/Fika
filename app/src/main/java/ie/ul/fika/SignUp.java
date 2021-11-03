@@ -61,7 +61,7 @@ public class SignUp extends AppCompatActivity {
                     mPassword.setError("Password is Required");
                 return;
                 }
-                if (password.length() > 6) {
+                if (password.length() < 6) {
                     mPassword.setError("Too short, must be more than 6 charachters");
                     return;
                 }
