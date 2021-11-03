@@ -4,11 +4,12 @@
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/dark_brown</item>
         <item name="colorPrimaryVariant">@color/brown</item>
-        <item name="colorOnPrimary">@color/beige</item>
+        <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/greige</item>
         <item name="colorSecondaryVariant">@color/white</item>
         <item name="colorOnSecondary">@color/black</item>
+        <item name="background">@color/light_beige</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
