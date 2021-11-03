@@ -10,6 +10,46 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Fika">
         <activity
+            android:name=".Location"
+            android:exported="true" />
+        <activity
+            android:name=".EditPost"
+            android:exported="true" />
+        <activity
+            android:name=".NewPost"
+            android:exported="true" />
+        <activity
+            android:name=".Conversations"
+            android:exported="true" />
+        <activity
+            android:name=".SearchUsers"
+            android:exported="true" />
+        <activity
+            android:name=".SavedPosts"
+            android:exported="true" />
+        <activity
+            android:name=".Messages"
+            android:exported="true" />
+        <activity
+            android:name=".Notifications"
+            android:exported="true" />
+        <activity
+            android:name=".Friends"
+            android:exported="true" />
+        <activity
+            android:name=".Profile"
+            android:exported="true" />
+        <activity
+            android:name=".Feed"
+            android:exported="true" />
+        <activity
+            android:name=".ui.login.Login"
+            android:exported="true"
+            android:label="@string/title_activity_login" />
+        <activity
+            android:name=".SignUp"
+            android:exported="true" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
