@@ -1,105 +1,90 @@
 package ie.ul.fika;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.util.Patterns;
+import android.text.TextUtils;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
+import android.widget.TextView;
+import android.widget.Toast;
 
-import com.google.android.material.textfield.TextInputLayout;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
 
-import java.util.Calendar;
-import java.util.regex.Pattern;
-import com.google.android.material.textfield.TextInputLayout;
+import org.w3c.dom.Text;
+
 
 public class SignUp extends AppCompatActivity {
-    private TextInputLayout textInputName;
-    private TextInputLayout textInputEmail;
-    private TextInputLayout textInputPassword1;
-    private TextInputLayout textInputPassword2;
+    EditText mFullName, mEmail, mPassword, mPhone;
+    Button mRegisterBtn;
+    TextView mLoginBtn;
+    FirebaseAuth fAuth;
+    ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
-        textInputName = findViewById(R.id.UserName);
-        textInputEmail = findViewById(R.id.email);
-        textInputPassword1 = findViewById(R.id.password1);
-        textInputPassword2 = findViewById(R.id.password2);
 
-    }
-    public void confirmInput(View view) {
-        boolean validation = validateName() && validateEmail() && validatePassword1() && validatePassword2();
+        mFullName = findViewById(R.id.fullName);
+        mEmail = findViewById(R.id.Email);
+        mPassword = findViewById(R.id.password);
+        mPhone = findViewById(R.id.phone);
+        mRegisterBtn = findViewById(R.id.registerBtn);
+        mLoginBtn = findViewById(R.id.createText);
 
-        if (validation) {
-
+        fAuth = FirebaseAuth.getInstance();
+        progressBar = findViewById(R.id.progressBar);
+// If user already exist, it sends them to main activity
+        if (fAuth.getCurrentUser() != null){
+            startActivity(new Intent(getApplicationContext(),MainActivity.class));
+            finish();
         }
 
+        mRegisterBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String email = mEmail.getText().toString().trim();
+                String password = mPassword.getText().toString().trim();
+
+                if(TextUtils.isEmpty(email)){
+                    mEmail.setError("Email is Required");
+                    return;
+                }
+                if (TextUtils.isEmpty(password)){
+                    mPassword.setError("Password is Required");
+                return;
+                }
+                if (password.length() > 6) {
+                    mPassword.setError("Too short, must be more than 6 charachters");
+                    return;
+                }
+                progressBar.setVisibility(View.VISIBLE);
+
+                // User will get regiser to firebase
+
+                fAuth.createUserWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()){
+                            Toast.makeText(SignUp.this, "User created", Toast.LENGTH_SHORT);
+                            startActivity(new Intent(getApplicationContext(),MainActivity.class));
+                        }else{
+                            Toast.makeText(SignUp.this, "Error !" + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+
+                        }
+                    }
+                });
+            }
+
+        });
+
     }
-    private boolean validateEmail() {
-        String emailInput = textInputEmail.getEditText().getText().toString();
-
-        if (emailInput.isEmpty()) {
-            textInputEmail.setError("Field can't be empty");
-            return false;
-        } else if (!Patterns.EMAIL_ADDRESS.matcher(emailInput).matches()) {
-            textInputEmail.setError("Please enter a valid email address");
-            return false;
-        } else {
-            textInputEmail.setError(null);
-            return true;
-        }
-
-
-    }
-    private boolean validateName() {
-
-        String nameInput = textInputName.getEditText().getText().toString();
-        if (nameInput.isEmpty()) {
-            textInputName.setError("field can't be empty");
-            return false;
-        } else {
-            textInputName.setError(null);
-            return true;
-        }
-    }
-
-    private boolean validatePassword1(){
-        String passwordInput = textInputPassword1.getEditText().getText().toString();
-
-        if (passwordInput.isEmpty()){
-            textInputPassword1.setError("field can't be empty");
-            return false;
-        } else if (!PASSWORD_PATTERN.matcher(passwordInput).matches()){
-            textInputPassword1.setError("Password too weak");
-            return false;
-        } else {
-            textInputPassword1.setError(null);
-            return true;
-        }
-    }
-
-    private boolean validatePassword2(){
-        String passwordInput = textInputPassword2.getEditText().getText().toString();
-
-        if (passwordInput.isEmpty()){
-            textInputPassword2.setError("field can't be empty");
-            return false;
-        } else if (!PASSWORD_PATTERN.matcher(passwordInput).matches()){
-            textInputPassword2.setError("Password too weak");
-            return false;
-        } else {
-            textInputPassword2.setError(null);
-            return true;
-        }
-    }
-
-    private boolean passwordequal(){
-        String passwordcheck = textInputPassword1.getEditText().getText().toString();
-        String passwordcheck2 = text
-        if ()
-    }
-
-
 }
