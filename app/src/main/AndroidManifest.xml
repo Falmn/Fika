@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Fika">
         <activity
-            android:name=".LogIn"
+            android:name=".Login"
             android:exported="true" />
         <activity
             android:name=".Location"

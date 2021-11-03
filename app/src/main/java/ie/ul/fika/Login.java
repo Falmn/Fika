@@ -6,7 +6,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -19,37 +18,29 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
-
-public class SignUp extends AppCompatActivity {
-    EditText mFullName, mEmail, mPassword, mPhone;
-    Button mRegisterBtn;
-    TextView mLoginBtn;
-    FirebaseAuth fAuth;
+public class Login extends AppCompatActivity {
+    EditText mEmail,mPassword;
+    Button mLoginBtn;
+    TextView mCreateBtn;
     ProgressBar progressBar;
+    FirebaseAuth fAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_signup);
+        setContentView(R.layout.activity_log_in);
 
-        mFullName = findViewById(R.id.fullName);
         mEmail = findViewById(R.id.Email);
         mPassword = findViewById(R.id.password);
-        mPhone = findViewById(R.id.phone);
-        mRegisterBtn = findViewById(R.id.loginBtn);
-        mLoginBtn = findViewById(R.id.createText);
-
-        fAuth = FirebaseAuth.getInstance();
         progressBar = findViewById(R.id.progressBar);
-// If user already exist, it sends them to main activity
-        if (fAuth.getCurrentUser() != null){
-            startActivity(new Intent(getApplicationContext(),MainActivity.class));
-            finish();
-        }
+        fAuth = FirebaseAuth.getInstance();
+        mLoginBtn = findViewById(R.id.loginBtn);
+        mCreateBtn = findViewById(R.id.createText);
 
-        mRegisterBtn.setOnClickListener(new View.OnClickListener() {
+        mLoginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 String email = mEmail.getText().toString().trim();
                 String password = mPassword.getText().toString().trim();
 
@@ -59,7 +50,7 @@ public class SignUp extends AppCompatActivity {
                 }
                 if (TextUtils.isEmpty(password)){
                     mPassword.setError("Password is Required");
-                return;
+                    return;
                 }
                 if (password.length() > 6) {
                     mPassword.setError("Too short, must be more than 6 charachters");
@@ -67,29 +58,28 @@ public class SignUp extends AppCompatActivity {
                 }
                 progressBar.setVisibility(View.VISIBLE);
 
-                // User will get regiser to firebase
+                // authenticate a user
 
-                fAuth.createUserWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                fAuth.signInWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()){
-                            Toast.makeText(SignUp.this, "User created", Toast.LENGTH_SHORT);
-                            startActivity(new Intent(getApplicationContext(),MainActivity.class));
-                        }else{
-                            Toast.makeText(SignUp.this, "Error !" + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                   if(task.isSuccessful()){
+                       Toast.makeText(Login.this, "Logged in just fine", Toast.LENGTH_SHORT);
+                       startActivity(new Intent(getApplicationContext(),MainActivity.class));
+                   } else {
+                       Toast.makeText(Login.this, "Error !" + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                   }
+                   }
 
-                        }
-                    }
                 });
             }
-
         });
+mCreateBtn.setOnClickListener(new View.OnClickListener() {
+    @Override
+    public void onClick(View view) {
+        startActivity(new Intent(getApplicationContext(),SignUp.class));
+    }
+});
 
-        mLoginBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(getApplicationContext(),Login.class));
-            }
-        });
     }
 }
