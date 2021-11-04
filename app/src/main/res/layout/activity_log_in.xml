@@ -62,7 +62,7 @@
         android:background="@color/white"
         android:ems="10"
         android:hint="Password"
-        android:inputType="textPersonName"
+        android:inputType="textPassword"
         android:padding="10dp"
         android:textColor="@color/dark_brown"
         app:layout_constraintBottom_toBottomOf="parent"
