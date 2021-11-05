@@ -39,7 +39,7 @@ String userId;
             public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException error) {
                 phone.setText(documentSnapshot.getString("phone"));
                 fullname.setText(documentSnapshot.getString("fName"));
-                email.setText(documentSnapshot.getString("fEmail"));
+                email.setText(documentSnapshot.getString("email"));
 
             }
         });
