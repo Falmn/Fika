@@ -31,13 +31,16 @@ import java.util.Map;
 
 
 public class SignUp extends AppCompatActivity {
-    EditText mFullName, mEmail, mPassword, mPhone;
-    Button mRegisterBtn;
-    TextView mLoginBtn;
-    FirebaseAuth fAuth;
-    ProgressBar progressBar;
+    private EditText username;
+    private EditText fullname;
+    private EditText email;
+    private EditText password;
+    private Button register;
+    private TextView loginUser;
 
+    ProgressBar progressBar;
     FirebaseFirestore fStore;
+    FirebaseAuth fAuth;
     String userID;
 
     @Override
@@ -45,46 +48,59 @@ public class SignUp extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
 
-        mFullName = findViewById(R.id.fullName);
-        mEmail = findViewById(R.id.Email);
-        mPassword = findViewById(R.id.password);
-        mPhone = findViewById(R.id.phone);
-        mRegisterBtn = findViewById(R.id.loginBtn);
-        mLoginBtn = findViewById(R.id.createText);
+        username = findViewById(R.id.username);
+        fullname = findViewById(R.id.fullname);
+        email = findViewById(R.id.email);
+        password = findViewById(R.id.password);
+        register = findViewById(R.id.register);
+        loginUser = findViewById(R.id.login_user);
+
         fStore = FirebaseFirestore.getInstance();
-        fAuth = FirebaseAuth.getInstance();
-        progressBar = findViewById(R.id.progressBar);
-// If user already exist, it sends them to main activity
+
+        //If user already a member, sends them to loginActivity
+        loginUser.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(SignUp.this, Login.class));
+            }
+        });
+
+        // If user already exist, it sends them to main activity
         if (fAuth.getCurrentUser() != null){
             startActivity(new Intent(getApplicationContext(),MainActivity.class));
             finish();
         }
 
-        mRegisterBtn.setOnClickListener(new View.OnClickListener() {
+        register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String email = mEmail.getText().toString().trim();
-                String password = mPassword.getText().toString().trim();
-                String fullName = mFullName.getText().toString();
-                String phone = mPhone.getText().toString();
+                String txtusername = username.getText().toString().trim();
+                String txtfullName = fullname.getText().toString();
+                String txtemail = email.getText().toString().trim();
+                String txtpassword = password.getText().toString().trim();
 
-                if(TextUtils.isEmpty(email)){
-                    mEmail.setError("Email is Required");
+
+                if(TextUtils.isEmpty(txtusername)){
+                    username.setError("Username is Required");
                     return;
                 }
-                if (TextUtils.isEmpty(password)){
-                    mPassword.setError("Password is Required");
+                if(TextUtils.isEmpty(txtemail)){
+                    email.setError("Email is Required");
+                    return;
+                }
+                if (TextUtils.isEmpty(txtpassword)){
+                    password.setError("Password is Required");
                 return;
                 }
-                if (password.length() < 6) {
-                    mPassword.setError("Too short, must be more than 6 charachters");
+                if (txtpassword.length() < 6) {
+                    password.setError("Too short, must be more than 6 charachters");
                     return;
                 }
                 progressBar.setVisibility(View.VISIBLE);
 
                 // User will get regiser to firebase
 
-                fAuth.createUserWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                fAuth.createUserWithEmailAndPassword(txtemail,txtpassword).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()){
@@ -94,9 +110,10 @@ public class SignUp extends AppCompatActivity {
                             DocumentReference documentReference = fStore.collection("users").document(userID);
                             Map<String,Object> user = new HashMap<>();
                             // Can have more data here, lie birthday and so on.
-                            user.put("fName",fullName);
-                            user.put("email",email);
-                            user.put("phone", phone);
+                            user.put("username",txtusername);
+                            user.put("fName",txtfullName);
+                            user.put("email",txtemail);
+
 
                             documentReference.set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
                                 public void onSuccess(Void unused) {
@@ -120,11 +137,5 @@ public class SignUp extends AppCompatActivity {
 
         });
 
-        mLoginBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(getApplicationContext(),Login.class));
-            }
-        });
     }
 }
