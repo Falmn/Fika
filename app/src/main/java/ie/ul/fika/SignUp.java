@@ -28,6 +28,8 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 
 public class SignUp extends AppCompatActivity {
@@ -74,33 +76,39 @@ public class SignUp extends AppCompatActivity {
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String txtusername = username.getText().toString().trim();
-                String txtfullName = fullname.getText().toString();
-                String txtemail = email.getText().toString().trim();
-                String txtpassword = password.getText().toString().trim();
+                String txtUsername = username.getText().toString().trim();
+                String txtFullName = fullname.getText().toString();
+                String txtEmail = email.getText().toString().trim();
+                String txtPassword = password.getText().toString().trim();
 
 
-                if(TextUtils.isEmpty(txtusername)){
+                if(TextUtils.isEmpty(txtUsername)){
                     username.setError("Username is Required");
                     return;
                 }
-                if(TextUtils.isEmpty(txtemail)){
+                if(TextUtils.isEmpty(txtFullName)){
+                    fullname.setError("Name is Required");
+                    return;
+                }
+
+                if(TextUtils.isEmpty(txtEmail)){
                     email.setError("Email is Required");
                     return;
                 }
-                if (TextUtils.isEmpty(txtpassword)){
+                if (TextUtils.isEmpty(txtPassword)){
                     password.setError("Password is Required");
                 return;
                 }
-                if (txtpassword.length() < 6) {
-                    password.setError("Too short, must be more than 6 charachters");
+                if (txtPassword.length() < 6) {
+                    password.setError("Password too short, minimum 6 characters");
                     return;
                 }
                 progressBar.setVisibility(View.VISIBLE);
 
-                // User will get regiser to firebase
 
-                fAuth.createUserWithEmailAndPassword(txtemail,txtpassword).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                // Register user to firebase
+
+                fAuth.createUserWithEmailAndPassword(txtEmail,txtPassword).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()){
@@ -110,9 +118,9 @@ public class SignUp extends AppCompatActivity {
                             DocumentReference documentReference = fStore.collection("users").document(userID);
                             Map<String,Object> user = new HashMap<>();
                             // Can have more data here, lie birthday and so on.
-                            user.put("username",txtusername);
-                            user.put("fName",txtfullName);
-                            user.put("email",txtemail);
+                            user.put("username",txtUsername);
+                            user.put("fName",txtFullName);
+                            user.put("email",txtEmail);
 
 
                             documentReference.set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
