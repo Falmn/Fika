@@ -17,7 +17,7 @@ public class StartApp extends AppCompatActivity {
 
     private ImageView iconImage;
     private LinearLayout linearLayout;
-    private Button register;
+    private Button registerButton;
     private Button login;
 
     @Override
@@ -28,7 +28,7 @@ public class StartApp extends AppCompatActivity {
 
         iconImage = findViewById(R.id.icon_image);
         linearLayout = findViewById(R.id.linear_layout);
-        register = findViewById(R.id.register);
+        registerButton = findViewById(R.id.registerButton);
         login = findViewById(R.id.login);
 
         linearLayout.animate().alpha(0f).setDuration(10);
@@ -41,7 +41,7 @@ public class StartApp extends AppCompatActivity {
 
         iconImage.setAnimation(animation);
 
-        register.setOnClickListener(new View.OnClickListener() {
+        registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(StartApp.this,

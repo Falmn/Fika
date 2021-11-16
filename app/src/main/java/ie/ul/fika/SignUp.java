@@ -75,75 +75,61 @@ public class SignUp extends AppCompatActivity {
 
         register.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                String txtUsername = username.getText().toString().trim();
+            public void onClick(View v) {
+                String txtUsername = username.getText().toString();
                 String txtFullName = fullname.getText().toString();
-                String txtEmail = email.getText().toString().trim();
-                String txtPassword = password.getText().toString().trim();
+                String txtEmail = email.getText().toString();
+                String txtPassword = password.getText().toString();
 
-
-                if(TextUtils.isEmpty(txtUsername)){
-                    username.setError("Username is Required");
-                    return;
+                if (TextUtils.isEmpty(txtUsername)){
+                    Toast.makeText(SignUp.this, "Username required", Toast.LENGTH_SHORT).show();
+                }else if (TextUtils.isEmpty(txtFullName)){
+                    Toast.makeText(SignUp.this, "Name required", Toast.LENGTH_SHORT).show();
+                }else if (TextUtils.isEmpty(txtEmail)) {
+                    Toast.makeText(SignUp.this, "Email required", Toast.LENGTH_SHORT).show();
+                }else if (TextUtils.isEmpty(txtPassword) || txtPassword.length() <6) {
+                    Toast.makeText(SignUp.this, "Password not valid, at least 6 characters", Toast.LENGTH_SHORT).show();
+                }else {
+                    registerUser(txtUsername, txtFullName, txtEmail, txtPassword);
                 }
-                if(TextUtils.isEmpty(txtFullName)){
-                    fullname.setError("Name is Required");
-                    return;
-                }
-
-                if(TextUtils.isEmpty(txtEmail)){
-                    email.setError("Email is Required");
-                    return;
-                }
-                if (TextUtils.isEmpty(txtPassword)){
-                    password.setError("Password is Required");
-                return;
-                }
-                if (txtPassword.length() < 6) {
-                    password.setError("Password too short, minimum 6 characters");
-                    return;
-                }
-                progressBar.setVisibility(View.VISIBLE);
-
-
-                // Register user to firebase
-
-                fAuth.createUserWithEmailAndPassword(txtEmail,txtPassword).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()){
-                            Toast.makeText(SignUp.this, "User created", Toast.LENGTH_SHORT);
-                           // creating a method to store users in a collection via their userID.
-                            userID = fAuth.getCurrentUser().getUid();
-                            DocumentReference documentReference = fStore.collection("users").document(userID);
-                            Map<String,Object> user = new HashMap<>();
-                            // Can have more data here, lie birthday and so on.
-                            user.put("username",txtUsername);
-                            user.put("fName",txtFullName);
-                            user.put("email",txtEmail);
-
-
-                            documentReference.set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
-                                public void onSuccess(Void unused) {
-                                    Log.d(TAG, "onSuccess: User profile created for" +userID);
-                                    }
-
-                            }).addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    Log.d(TAG, "onFailure: " + e.toString());
-                                }
-                            });
-                            startActivity(new Intent(getApplicationContext(),MainActivity.class));
-                        }else{
-                            Toast.makeText(SignUp.this, "Error !" + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-                            progressBar.setVisibility(View.GONE);
-                        }
-                    }
-                });
             }
 
         });
 
+    }
+
+    //Register user and add to firebase
+    private void registerUser(final String username, final String fullName, final String email, String password){
+        fAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if (task.isSuccessful()) {
+                    Toast.makeText(SignUp.this, "User created", Toast.LENGTH_SHORT);
+                    userID = fAuth.getCurrentUser().getUid();
+                    DocumentReference documentReference = fStore.collection("users").document(userID);
+                    Map<String, Object> user = new HashMap<>();
+                    user.put("name", fullName);
+                    user.put("email", email);
+                    user.put("username", username);
+                    user.put("userID", fAuth.getCurrentUser().getUid());
+
+                    documentReference.set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
+                        public void onSuccess(Void unused) {
+                            Log.d(TAG, "onSuccess: User profile created for" + userID);
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.d(TAG, "onFailure: " + e.toString());
+                        }
+                    });
+                    startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                } else {
+                    Toast.makeText(SignUp.this, "Error !" + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                    progressBar.setVisibility(View.GONE);
+                }
+            }
+
+        });
     }
 }
