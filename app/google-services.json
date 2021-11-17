@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "476174273933",
+    "project_id": "fika-77289",
+    "storage_bucket": "fika-77289.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:476174273933:android:3f92630063314787c201c4",
+        "android_client_info": {
+          "package_name": "ie.ul.fika"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "476174273933-2o4non5eadc4cbjfmlntqn7a39nfikdt.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDKyZhbzO9dw58Ctg_BLmJU9GpkKak-Wb0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "476174273933-2o4non5eadc4cbjfmlntqn7a39nfikdt.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
