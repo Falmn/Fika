@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="beige">#CFBDAB</color>
-    <color name="light_beige">#EFE3D6</color>
-    <color name="brown">#3C281D</color>
-    <color name="greige">#8E8682</color>
-    <color name="dark_brown">#2E1F17</color>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
+    <color name="colorPrimary">#35231a</color>
+    <color name="colorPrimaryDark">#2b1a10</color>
+    <color name="colorAccent">#ebe7e5</color>
+    <color name="colorBackground">#fffdfc</color>
+    <color name="colorShade">#e0dcda</color>
+    <color name="colorBeige">#c8bfba</color>
+    <color name="colorBlack">#000000</color>
+    <color name="colorWhite">#ffffff</color>
 </resources>

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/light_beige"
+    android:background="@color/colorBackground"
     tools:context=".MainActivity">
 
 
@@ -50,7 +50,7 @@
         android:id="@+id/profileName"
         android:layout_width="274dp"
         android:layout_height="24dp"
-        android:background="@color/white"
+        android:background="@drawable/edit_text_background"
         android:text="Your Name"
         app:layout_constraintBottom_toTopOf="@+id/button"
         app:layout_constraintEnd_toEndOf="parent"
@@ -63,7 +63,7 @@
         android:id="@+id/profileEmail"
         android:layout_width="272dp"
         android:layout_height="28dp"
-        android:background="@color/white"
+        android:background="@drawable/edit_text_background"
         android:text="Your Email"
         app:layout_constraintBottom_toTopOf="@+id/profilePhone"
         app:layout_constraintEnd_toEndOf="parent"
@@ -79,7 +79,7 @@
         android:layout_marginStart="1dp"
         android:layout_marginTop="461dp"
         android:layout_marginBottom="176dp"
-        android:background="@color/white"
+        android:background="@drawable/edit_text_background"
         android:text="Phone number"
         app:layout_constraintBottom_toTopOf="@+id/button"
         app:layout_constraintStart_toStartOf="@+id/profileEmail"
