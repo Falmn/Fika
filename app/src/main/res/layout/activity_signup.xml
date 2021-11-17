@@ -111,7 +111,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
         android:visibility="invisible"
-        android:id="@+id/progressBar"/>
+        android:id="@+id/progress_bar"/>
 
 </LinearLayout>
 
