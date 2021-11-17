@@ -29,6 +29,11 @@
         <entry key="app/src/main/res/layout/activity_search_users.xml" value="0.234375" />
         <entry key="app/src/main/res/layout/activity_signup.xml" value="0.234375" />
         <entry key="app/src/main/res/layout/activity_start_app.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_search_users.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/fragment_search.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/user_item.xml" value="0.25" />
       </map>
     </option>
   </component>
