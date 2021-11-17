@@ -1,6 +1,7 @@
 package ie.ul.fika.Model;
 
 public class User {
+    private String userID;
     private String username;
     private String fullName;
     private String email;
@@ -8,12 +9,16 @@ public class User {
 
     public User(){
     }
-    public User(String email, String fullName, String username) {
+    public User(String userID, String email, String fullName, String username) {
+        this.userID = userID;
         this.email = email;
         this.fullName = fullName;
         this.username = username;
     }
 
+    public String getUserID(){return userID;}
+
+    public void setUserID(String userID){this.userID = userID;}
     public String getEmail() {
         return email;
     }
