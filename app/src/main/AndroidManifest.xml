@@ -30,9 +30,6 @@
             android:name=".Conversations"
             android:exported="true" />
         <activity
-            android:name=".SearchUsers"
-            android:exported="true" />
-        <activity
             android:name=".SavedPosts"
             android:exported="true" />
         <activity
