@@ -37,6 +37,12 @@ public class Login extends AppCompatActivity {
         mLoginBtn = findViewById(R.id.loginBtn);
         mCreateBtn = findViewById(R.id.createText);
 
+        /*// If user already exist, it sends them to main activity
+        if (fAuth.getCurrentUser() != null){
+            startActivity(new Intent(getApplicationContext(),MainActivity.class));
+            finish();
+        }*/
+
         mLoginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -50,10 +56,6 @@ public class Login extends AppCompatActivity {
                 }
                 if (TextUtils.isEmpty(password)){
                     mPassword.setError("Password is Required");
-                    return;
-                }
-                if (password.length() > 6) {
-                    mPassword.setError("Too short, must be more than 6 charachters");
                     return;
                 }
                 progressBar.setVisibility(View.VISIBLE);
