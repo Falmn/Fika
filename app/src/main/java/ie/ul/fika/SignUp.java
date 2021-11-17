@@ -103,7 +103,7 @@ public class SignUp extends AppCompatActivity {
                 }
 
                 if (txtPassword.length() > 6) {
-                    password.setError("Too short, must be more than 6 charachters");
+                    password.setError("Too short, must be more than 6 characters");
                     return;
                 }
                 progressBar.setVisibility(View.VISIBLE);

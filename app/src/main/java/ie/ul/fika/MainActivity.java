@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -16,41 +17,32 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 
 public class MainActivity extends AppCompatActivity {
-TextView fullname, email, phone;
-FirebaseAuth fAuth;
-FirebaseFirestore fStore;
-String userId;
+    ImageView newPost, profile;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        phone = findViewById(R.id.profilePhone);
-        fullname = findViewById(R.id.profileName);
-        email = findViewById(R.id.profileEmail);
 
-        fAuth = FirebaseAuth.getInstance();
-        fStore = FirebaseFirestore.getInstance();
+        newPost = findViewById(R.id.newPost);
+        profile = findViewById(R.id.profile);
 
-        userId = fAuth.getCurrentUser().getUid();
-
-        DocumentReference documentReference = fStore.collection("users").document(userId);
-        documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
+        // Sends to profile activity
+        profile.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException error) {
-                phone.setText(documentSnapshot.getString("phone"));
-                fullname.setText(documentSnapshot.getString("fName"));
-                email.setText(documentSnapshot.getString("email"));
-
+            public void onClick(View view) {
+                startActivity(new Intent(getApplicationContext(),Profile.class));
             }
         });
-
+        //For adding a new post.
+/*   newPost.setOnClickListener(new View.OnClickListener() {
+       @Override
+       public void onClick(View view) {
+           startActivity(new Intent(getApplicationContext(),));
+       }
+   });*/
 
 
     }
 
-public void logout(View view){
-    FirebaseAuth.getInstance().signOut(); // loggar ut från firebase
-    startActivity(new Intent(getApplicationContext(), Login.class));
-    finish();
-}
+
 }
