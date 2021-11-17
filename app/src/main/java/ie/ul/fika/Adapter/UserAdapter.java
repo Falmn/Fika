@@ -63,8 +63,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder>{
         if (user.getUserID().equals(firebaseUser.getUid())){
             holder.btn_follow.setVisibility(View.GONE);
         }
-        //Här börjar det
-        /*
+       /*
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -80,29 +79,27 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder>{
                     mContext.startActivity(intent);
                 }
             }
-        });
+        });*/ //Skicka vänförfrågan
+
         holder.btn_follow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (holder.btn_follow.getText().toString().equals("follow")){
                     FirebaseDatabase.getInstance().getReference().child("Follow").child(firebaseUser.getUid())
-                            .child("following").child(user.getId()).setValue(true);
+                            .child("following").child(user.getUserID()).setValue(true);
 
-                    FirebaseDatabase.getInstance().getReference().child("Follow").child(user.getId())
+                    FirebaseDatabase.getInstance().getReference().child("Follow").child(user.getUserID())
                             .child("followers").child(firebaseUser.getUid()).setValue(true);
-
-                    addNotifications(user.getId());
+// om vi inte följer finns en knapp för "follow" som ändras till "following" när vi trycker på den och tvärt om om det redan står following. Och personen läggs till i firebase som personer man följer
                 } else {
                     FirebaseDatabase.getInstance().getReference().child("Follow").child(firebaseUser.getUid())
-                            .child("following").child(user.getId()).removeValue();
+                            .child("following").child(user.getUserID()).removeValue();
 
-                    FirebaseDatabase.getInstance().getReference().child("Follow").child(user.getId())
+                    FirebaseDatabase.getInstance().getReference().child("Follow").child(user.getUserID())
                             .child("followers").child(firebaseUser.getUid()).removeValue();
                 }
             }
         });
-        //Här slutar det
-        */
     }
     //Här börjar det
     /*
