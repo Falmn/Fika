@@ -42,10 +42,9 @@ public class SignUp extends AppCompatActivity {
     private Button register;
     private TextView loginUser;
 
-    private ProgressBar progressBar;
-    private FirebaseFirestore fStore;
-    private FirebaseAuth fAuth;
-    private String userID;
+    FirebaseFirestore fStore;
+    FirebaseAuth fAuth;
+    String userID;
 
     //Pattern for password validation
     private static final Pattern PASSWORD_PATTERN =
@@ -85,25 +84,25 @@ public class SignUp extends AppCompatActivity {
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String txtEmail = email.getEditText().getText().toString();
+                String txtEmail = email.getEditText().getText().toString().trim();
                 String txtPassword = password.getEditText().getText().toString();
+                String txtFullName = fullname.getEditText().getText().toString().trim();
+                String txtUsername = username.getEditText().getText().toString().trim();
 
                 progressBar.setVisibility(View.VISIBLE);
 
-
-                //Add user to firebase
+                //Register user to firebase
                 fAuth.createUserWithEmailAndPassword(txtEmail, txtPassword).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             Toast.makeText(SignUp.this, "User created", Toast.LENGTH_SHORT);
                             userID = fAuth.getCurrentUser().getUid();
-                            DocumentReference documentReference = fStore.collection("users").document(userID);
+                            DocumentReference documentReference = fStore.collection("newUsers").document(userID);
                             Map<String, Object> user = new HashMap<>();
-                            user.put("name", fullname);
-                            user.put("email", email);
-                            user.put("username", username);
-                            user.put("userID", fAuth.getCurrentUser().getUid());
+                            user.put("name", txtFullName);
+                            user.put("email", txtEmail);
+                            user.put("username", txtUsername);
 
                             documentReference.set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
                                 public void onSuccess(Void unused) {
@@ -116,6 +115,7 @@ public class SignUp extends AppCompatActivity {
                                 }
                             });
                             startActivity(new Intent(getApplicationContext(), MainActivity.class));
+
                         } else {
                             Toast.makeText(SignUp.this, "Error !" + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                             progressBar.setVisibility(View.GONE);
@@ -126,7 +126,6 @@ public class SignUp extends AppCompatActivity {
             }
 
         });
-
     }
 
     //Methods to validate all input
@@ -134,7 +133,7 @@ public class SignUp extends AppCompatActivity {
         String usernameInput = username.getEditText().getText().toString();
 
         if (usernameInput.isEmpty()){
-            username.setError("Field can't be empty");
+            username.setError("Please enter username");
             return false;
         }else if (usernameInput.length()>15){
             username.setError("Username too long");
@@ -149,7 +148,7 @@ public class SignUp extends AppCompatActivity {
         String nameInput = fullname.getEditText().getText().toString();
 
         if (nameInput.isEmpty()){
-            fullname.setError("Field can't be empty");
+            fullname.setError("Please enter full name");
             return false;
         }else {
             fullname.setError(null);
@@ -161,7 +160,7 @@ public class SignUp extends AppCompatActivity {
         String emailInput = email.getEditText().getText().toString();
 
         if (emailInput.isEmpty()){
-            email.setError("Field can't be empty");
+            email.setError("Please enter email");
             return false;
         }else if(!Patterns.EMAIL_ADDRESS.matcher(emailInput).matches()){
             email.setError("Please enter a valid email address");
@@ -176,7 +175,7 @@ public class SignUp extends AppCompatActivity {
         String passwordInput = password.getEditText().getText().toString();
 
         if (passwordInput.isEmpty()){
-            password.setError("Field can't be empty");
+            password.setError("Please enter password");
             return false;
         }else if (PASSWORD_PATTERN.matcher(passwordInput).matches()){
             password.setError("Password too weak");
