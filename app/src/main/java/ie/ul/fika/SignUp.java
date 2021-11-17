@@ -10,6 +10,7 @@ import android.nfc.Tag;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -21,6 +22,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
@@ -33,17 +35,26 @@ import java.util.regex.Pattern;
 
 
 public class SignUp extends AppCompatActivity {
-    private EditText username;
-    private EditText fullname;
-    private EditText email;
-    private EditText password;
+    private TextInputLayout username;
+    private TextInputLayout fullname;
+    private TextInputLayout email;
+    private TextInputLayout password;
     private Button register;
     private TextView loginUser;
 
-    ProgressBar progressBar;
-    FirebaseFirestore fStore;
-    FirebaseAuth fAuth;
-    String userID;
+    private ProgressBar progressBar;
+    private FirebaseFirestore fStore;
+    private FirebaseAuth fAuth;
+    private String userID;
+
+    //Pattern for password validation
+    private static final Pattern PASSWORD_PATTERN =
+            Pattern.compile("" +
+                    "(?=.*[a-zA-Z])" +          // Any letter -short
+                    "(?=.*[@#%$&+=])" +         // At least one special character -short
+                    "(?=\\S+$)" +               // No white spaces
+                    ".{4,}" +                   // At least four characters
+                    "$");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,8 +67,10 @@ public class SignUp extends AppCompatActivity {
         password = findViewById(R.id.password);
         register = findViewById(R.id.register);
         loginUser = findViewById(R.id.login_user);
+        ProgressBar progressBar=(ProgressBar) findViewById(R.id.progressBar);
 
         fStore = FirebaseFirestore.getInstance();
+        fAuth = FirebaseAuth.getInstance();
 
         //If user already a member, sends them to loginActivity
         loginUser.setOnClickListener(new View.OnClickListener() {
@@ -67,45 +80,14 @@ public class SignUp extends AppCompatActivity {
             }
         });
 
-        // If user already exist, it sends them to main activity
-        if (fAuth.getCurrentUser() != null){
-            startActivity(new Intent(getApplicationContext(),MainActivity.class));
-            finish();
-        }
 
         // Checks if all fields are filled in and start register method when user clicks on register
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String txtUsername = username.getText().toString();
-                String txtFullName = fullname.getText().toString();
-                String txtEmail = email.getText().toString();
-                String txtPassword = password.getText().toString();
+                String txtEmail = email.getEditText().getText().toString();
+                String txtPassword = password.getEditText().getText().toString();
 
-                if(TextUtils.isEmpty(txtUsername)) {
-                    username.setError("Username is Required");
-                    return;
-                }
-
-                if(TextUtils.isEmpty(txtFullName)) {
-                    fullname.setError("Name is Required");
-                    return;
-                }
-
-                if(TextUtils.isEmpty(txtEmail)){
-                    email.setError("Email is Required");
-                    return;
-                }
-
-                if (TextUtils.isEmpty(txtPassword)){
-                    password.setError("Password is Required");
-                    return;
-                }
-
-                if (txtPassword.length() > 6) {
-                    password.setError("Too short, must be more than 6 charachters");
-                    return;
-                }
                 progressBar.setVisibility(View.VISIBLE);
 
 
@@ -146,4 +128,72 @@ public class SignUp extends AppCompatActivity {
         });
 
     }
+
+    //Methods to validate all input
+    private boolean validateUsername(){
+        String usernameInput = username.getEditText().getText().toString();
+
+        if (usernameInput.isEmpty()){
+            username.setError("Field can't be empty");
+            return false;
+        }else if (usernameInput.length()>15){
+            username.setError("Username too long");
+            return false;
+        }else {
+            username.setError(null);
+            return true;
+        }
+    }
+
+    private boolean validateName(){
+        String nameInput = fullname.getEditText().getText().toString();
+
+        if (nameInput.isEmpty()){
+            fullname.setError("Field can't be empty");
+            return false;
+        }else {
+            fullname.setError(null);
+            return true;
+        }
+    }
+
+    private boolean validateEmail(){
+        String emailInput = email.getEditText().getText().toString();
+
+        if (emailInput.isEmpty()){
+            email.setError("Field can't be empty");
+            return false;
+        }else if(!Patterns.EMAIL_ADDRESS.matcher(emailInput).matches()){
+            email.setError("Please enter a valid email address");
+            return false;
+        }else {
+            email.setError(null);
+            return true;
+        }
+    }
+
+    private boolean validatePassword(){
+        String passwordInput = password.getEditText().getText().toString();
+
+        if (passwordInput.isEmpty()){
+            password.setError("Field can't be empty");
+            return false;
+        }else if (PASSWORD_PATTERN.matcher(passwordInput).matches()){
+            password.setError("Password too weak");
+            return false;
+        }else {
+            password.setError(null);
+            return true;
+        }
+    }
+
+    //Confirm input when clicking button
+    public void confirmInput(View view){
+        boolean validation = validateName() && validateEmail() && validateUsername() && validatePassword();
+        if (validation){
+            //Start activity
+        }
+    }
+
+
 }

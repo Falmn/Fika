@@ -37,6 +37,12 @@ public class Login extends AppCompatActivity {
         mLoginBtn = findViewById(R.id.loginBtn);
         mCreateBtn = findViewById(R.id.createText);
 
+        /*// If user already exist, it sends them to main activity
+        if (fAuth.getCurrentUser() != null){
+            startActivity(new Intent(getApplicationContext(),MainActivity.class));
+            finish();
+        }*/
+
         mLoginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
