@@ -1,4 +1,4 @@
-package ie.ul.fika;
+package ie.ul.fika.Fragments;
 
 import android.os.Bundle;
 
@@ -7,6 +7,8 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import ie.ul.fika.R;
 
 /**
  * A simple {@link Fragment} subclass.
