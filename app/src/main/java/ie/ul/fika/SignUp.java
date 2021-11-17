@@ -28,6 +28,8 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 
 public class SignUp extends AppCompatActivity {
@@ -60,7 +62,7 @@ public class SignUp extends AppCompatActivity {
         //If user already a member, sends them to loginActivity
         loginUser.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(View v) {
                 startActivity(new Intent(SignUp.this, Login.class));
             }
         });
@@ -71,67 +73,73 @@ public class SignUp extends AppCompatActivity {
             finish();
         }
 
+        // Checks if all fields are filled in and start register method when user clicks on register
         register.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                String txtusername = username.getText().toString().trim();
-                String txtfullName = fullname.getText().toString();
-                String txtemail = email.getText().toString().trim();
-                String txtpassword = password.getText().toString().trim();
+            public void onClick(View v) {
+                String txtUsername = username.getText().toString();
+                String txtFullName = fullname.getText().toString();
+                String txtEmail = email.getText().toString();
+                String txtPassword = password.getText().toString();
 
-
-                if(TextUtils.isEmpty(txtusername)){
+                if(TextUtils.isEmpty(txtUsername)) {
                     username.setError("Username is Required");
                     return;
                 }
-                if(TextUtils.isEmpty(txtemail)){
+
+                if(TextUtils.isEmpty(txtFullName)) {
+                    fullname.setError("Name is Required");
+                    return;
+                }
+
+                if(TextUtils.isEmpty(txtEmail)){
                     email.setError("Email is Required");
                     return;
                 }
-                if (TextUtils.isEmpty(txtpassword)){
+
+                if (TextUtils.isEmpty(txtPassword)){
                     password.setError("Password is Required");
-                return;
+                    return;
                 }
-                if (txtpassword.length() < 6) {
+
+                if (txtPassword.length() > 6) {
                     password.setError("Too short, must be more than 6 charachters");
                     return;
                 }
                 progressBar.setVisibility(View.VISIBLE);
 
-                // User will get regiser to firebase
 
-                fAuth.createUserWithEmailAndPassword(txtemail,txtpassword).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                //Add user to firebase
+                fAuth.createUserWithEmailAndPassword(txtEmail, txtPassword).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()){
+                        if (task.isSuccessful()) {
                             Toast.makeText(SignUp.this, "User created", Toast.LENGTH_SHORT);
-                           // creating a method to store users in a collection via their userID.
                             userID = fAuth.getCurrentUser().getUid();
                             DocumentReference documentReference = fStore.collection("users").document(userID);
-                            Map<String,Object> user = new HashMap<>();
-                            // Can have more data here, lie birthday and so on.
-                            user.put("username",txtusername);
-                            user.put("fName",txtfullName);
-                            user.put("email",txtemail);
-
+                            Map<String, Object> user = new HashMap<>();
+                            user.put("name", fullname);
+                            user.put("email", email);
+                            user.put("username", username);
+                            user.put("userID", fAuth.getCurrentUser().getUid());
 
                             documentReference.set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
                                 public void onSuccess(Void unused) {
-                                    Log.d(TAG, "onSuccess: User profile created for" +userID);
-                                    }
-
+                                    Log.d(TAG, "onSuccess: User profile created for" + userID);
+                                }
                             }).addOnFailureListener(new OnFailureListener() {
                                 @Override
                                 public void onFailure(@NonNull Exception e) {
                                     Log.d(TAG, "onFailure: " + e.toString());
                                 }
                             });
-                            startActivity(new Intent(getApplicationContext(),MainActivity.class));
-                        }else{
+                            startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                        } else {
                             Toast.makeText(SignUp.this, "Error !" + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                             progressBar.setVisibility(View.GONE);
                         }
                     }
+
                 });
             }
 
