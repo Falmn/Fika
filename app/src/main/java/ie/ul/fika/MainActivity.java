@@ -1,3 +1,4 @@
+/*
 package ie.ul.fika;
 
 import androidx.annotation.Nullable;
@@ -40,3 +41,4 @@ public class MainActivity extends AppCompatActivity {
 
 
 }
+*/

@@ -1,3 +1,4 @@
+/*
 package ie.ul.fika.Adapter;
 
 import android.content.Context;
@@ -63,7 +64,8 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder>{
         if (user.getUserID().equals(firebaseUser.getUid())){
             holder.btn_follow.setVisibility(View.GONE);
         }
-      /*  holder.itemView.setOnClickListener(new View.OnClickListener() {
+      */
+/*  holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (isFragment) {
@@ -78,7 +80,8 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder>{
                     mContext.startActivity(intent);
                 }
             }
-        });*/
+        });*//*
+
  //Skicka vänförfrågan
 
         holder.btn_follow.setOnClickListener(new View.OnClickListener() {
@@ -101,7 +104,8 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder>{
             }
         });
     }
-  /*  //Här börjar det
+  */
+/*  //Här börjar det
     private void addNotifications(String userid) {
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Notifications").child(userid);
 
@@ -112,7 +116,8 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder>{
         hashMap.put("ispost" , false);
 
         reference.push().setValue(hashMap);
-    }//här slutar det*/
+    }//här slutar det*//*
+
 
 
 
@@ -156,3 +161,4 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder>{
     }
 
 }
+*/

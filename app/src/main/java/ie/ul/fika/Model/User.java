@@ -1,3 +1,4 @@
+/*
 package ie.ul.fika.Model;
 
 public class User {
@@ -45,3 +46,4 @@ public class User {
 
 
 }
+*/

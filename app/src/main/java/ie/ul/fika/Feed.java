@@ -1,3 +1,4 @@
+/*
 package ie.ul.fika;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -29,3 +30,4 @@ ImageView newPost, profile;
 
     }
 }
+*/

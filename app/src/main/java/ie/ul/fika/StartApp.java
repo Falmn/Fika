@@ -1,3 +1,4 @@
+/*
 package ie.ul.fika;
 
 import android.content.Intent;
@@ -91,3 +92,4 @@ public class StartApp extends AppCompatActivity {
     }
 
 }
+*/

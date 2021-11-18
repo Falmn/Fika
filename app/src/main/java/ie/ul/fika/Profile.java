@@ -1,3 +1,4 @@
+/*
 package ie.ul.fika;
 
 import androidx.annotation.Nullable;
@@ -12,16 +13,19 @@ import com.google.firebase.auth.FirebaseAuth;
 
 
 public class Profile extends AppCompatActivity {
-    /*TextView fullname, email, phone;
+    */
+/*TextView fullname, email, phone;
     //FirebaseAuth fAuth;
     //FirebaseFirestore fStore;
-    String userId;*/
+    String userId;*//*
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
-        /*phone = findViewById(R.id.profilePhone);
+        */
+/*phone = findViewById(R.id.profilePhone);
         fullname = findViewById(R.id.profileName);
         email = findViewById(R.id.profileEmail);
 
@@ -44,6 +48,8 @@ public class Profile extends AppCompatActivity {
     public void logout(View view){
         FirebaseAuth.getInstance().signOut(); // loggar ut från firebase
         startActivity(new Intent(getApplicationContext(), Login.class));
-        finish();*/
+        finish();*//*
+
     }
 }
+*/
