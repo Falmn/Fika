@@ -1,4 +1,4 @@
-package ie.ul.fika;
+/*package ie.ul.fika;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -76,7 +76,7 @@ public class StartApp extends AppCompatActivity {
         public void onAnimationRepeat(Animation animation) {
 
         }
-    }
+    }*/
 
 /*    @Override
     protected void onStart(){
@@ -88,4 +88,4 @@ public class StartApp extends AppCompatActivity {
         }
     }*/
 
-}
+/*}*/

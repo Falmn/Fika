@@ -1,3 +1,4 @@
+/*
 package ie.ul.fika;
 
 import androidx.annotation.Nullable;
@@ -11,8 +12,8 @@ import android.widget.TextView;
 
 public class Profile extends AppCompatActivity {
     TextView fullname, email, phone;
-    FirebaseAuth fAuth;
-    FirebaseFirestore fStore;
+    //FirebaseAuth fAuth;
+    //FirebaseFirestore fStore;
     String userId;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,4 +45,4 @@ public class Profile extends AppCompatActivity {
         startActivity(new Intent(getApplicationContext(), Login.class));
         finish();
     }
-}
+}*/

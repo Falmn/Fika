@@ -1,4 +1,4 @@
-package ie.ul.fika;
+/*package ie.ul.fika;
 
 import static android.content.ContentValues.TAG;
 
@@ -198,7 +198,7 @@ public class SignUp extends AppCompatActivity {
         if (validation) {
             //Start activity
         }
-    }
+    }*/
 
 
     // Example 2
@@ -267,4 +267,5 @@ public class SignUp extends AppCompatActivity {
                 });*/
 
 
-}
+/*
+}*/
