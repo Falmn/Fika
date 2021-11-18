@@ -1,4 +1,3 @@
-/*
 package ie.ul.fika;
 
 import androidx.annotation.Nullable;
@@ -31,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
    newPost.setOnClickListener(new View.OnClickListener() {
        @Override
        public void onClick(View view) {
-           startActivity(new Intent(getApplicationContext(),));
+           startActivity(new Intent(getApplicationContext(),NewPost.class));
        }
    });
 
@@ -41,4 +40,3 @@ public class MainActivity extends AppCompatActivity {
 
 
 }
-*/

@@ -1,4 +1,3 @@
-/*
 package ie.ul.fika;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -27,13 +26,6 @@ ImageView newPost, profile;
             }
         });
         //For adding a new post.
-*/
-/*   newPost.setOnClickListener(new View.OnClickListener() {
-       @Override
-       public void onClick(View view) {
-           startActivity(new Intent(getApplicationContext(),));
-       }
-   });*//*
 
     }
-}*/
+}
